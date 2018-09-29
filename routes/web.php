@@ -11,6 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/ccc/bb', function () {
+    return $_SERVER;
+//    return view('welcome');
 });
