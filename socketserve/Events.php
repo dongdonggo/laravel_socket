@@ -45,7 +45,7 @@ class Events
      */
     public static function onConnect($client_id)
     {
-        $_POST['data'] = ['client_id'=>$client_id,'type'=>'connnect'];
+     /*   $_POST['data'] = ['client_id'=>$client_id,'type'=>'connnect'];
         $_SERVER = [
             "DOCUMENT_ROOT"=>"D=>\\IDE\\PHPTutorial\\WWW\\laravel_socket\\public",
             "REMOTE_ADDR"=>"127.0.0.1",
@@ -81,10 +81,10 @@ class Events
         $response->send();
         $kernel->terminate($request, $response);
         $res = ob_get_contents();//获取缓存区的内容
-        ob_end_clean();//清除缓存区
+        ob_end_clean();//清除缓存区*/
 
         // 向当前client_id发送数据
-        Gateway::sendToClient($client_id, $res);
+        Gateway::sendToClient($client_id, 'ss');
         // 向所有人发送
         Gateway::sendToAll("$client_id login\r\n");
     }
@@ -116,7 +116,7 @@ class Events
            "SCRIPT_NAME"=>"\/index.php",
            "SCRIPT_FILENAME"=>"D=>\\IDE\\PHPTutorial\\WWW\\laravel_socket\\public\\index.php",
            "PHP_SELF"=>"\/index.php",
-           "HTTP_HOST"=>"127.0.0.1=>8000",
+           "HTTP_HOST"=>"laravel.test.local",
            "HTTP_CONNECTION"=>"keep-alive",
            "HTTP_UPGRADE_INSECURE_REQUESTS"=>"1",
            "HTTP_USER_AGENT"=>"Mozilla\/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit\/537.36 (KHTML,like Gecko) Chrome\/69.0.3497.100Safari\/537.36",
@@ -125,19 +125,52 @@ class Events
            "HTTP_ACCEPT_LANGUAGE"=>"zh-CN,zh;q=0.9",
            "HTTP_COOKIE"=>"hblid=lsfnACjdTQC6VKkt3m39N0HaB5orAbY2; olfsk=olfsk7813509245504264",
            "REQUEST_TIME_FLOAT"=>1538213347.372128,
-           "REQUEST_TIME"=>1538213347
+           "REQUEST_TIME"=>1538213347,
+//            'argv'=>123,
        ];
        ob_start();//启用缓存区
        require __DIR__.'/../vendor/autoload.php';
-       $app = require_once __DIR__.'/../bootstrap/app.php';
+//       $app = require_once __DIR__.'/../bootstrap/app.php';
+
+
+       $app = new Illuminate\Foundation\Application(
+           realpath(__DIR__.'/../')
+       );
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////////       注册核心文件       ////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+       #  请求
+       $app->singleton(
+           Illuminate\Contracts\Http\Kernel::class,
+           App\Http\Kernel::class
+       );
+        # 命令行
+    /*   $app->singleton(
+           Illuminate\Contracts\Console\Kernel::class,
+           App\Console\Kernel::class
+       );*/
+        # 异常---
+       $app->singleton(
+           Illuminate\Contracts\Debug\ExceptionHandler::class,
+           App\Exceptions\Handler::class
+       );
+
+
+
        $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
        $response = $kernel->handle(
            $request = Illuminate\Http\Request::capture()
        );
-       $response->send();
-       $kernel->terminate($request, $response);
+//       $response->send();
+//       $kernel->terminate($request, $response);
+
+//       $user = App\Models\User::find(1);
+//       $res = response($user);
+//       dump($user);
        $res = ob_get_contents();//获取缓存区的内容
        ob_end_clean();//清除缓存区
+
         // 向所有人发送
         Gateway::sendToAll($res);
    }

@@ -15,3 +15,9 @@ Route::get('/ccc/bb', function () {
     return $_SERVER;
 //    return view('welcome');
 });
+
+Route::get('/', function () {
+    $user = App\Models\User::where('id',1)->get()->toArray();
+    return  response($user); //$user = \App\User::find(1);
+//    return view('welcome');
+});

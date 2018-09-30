@@ -20,22 +20,22 @@ $app = new Illuminate\Foundation\Application(
 | Bind Important Interfaces
 |--------------------------------------------------------------------------
 |
-| Next, we need to bind some important interfaces into the container so
+| Next, we need to bind some important interfaces into the co       ntainer so
 | we will be able to resolve them when needed. The kernels serve the
 | incoming requests to this application from both the web and CLI.
 |
 */
-
+#  请求
 $app->singleton(
     Illuminate\Contracts\Http\Kernel::class,
     App\Http\Kernel::class
 );
-
+# 命令行
 $app->singleton(
     Illuminate\Contracts\Console\Kernel::class,
     App\Console\Kernel::class
 );
-
+# 异常
 $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
     App\Exceptions\Handler::class
