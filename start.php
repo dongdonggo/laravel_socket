@@ -16,10 +16,11 @@ use Workerman\Worker;
 if(strpos(strtolower(PHP_OS), 'win') === 0)
 {
     $file = '';
-    foreach(glob(__DIR__.'/socketserve/start*.php') as $start_file)
+    foreach(glob(__DIR__.'/app/socketserve/start*.php') as $start_file)
     {
         $file.="$start_file ";
     }
+//    echo $file;
     system("php $file");
 
 }else{
@@ -35,7 +36,7 @@ if(strpos(strtolower(PHP_OS), 'win') === 0)
     define('GLOBAL_START', 1);
     require_once __DIR__ . '/vendor/autoload.php';
 // 加载所有Applications/*/start.php，以便启动所有服务
-    foreach(glob(__DIR__.'/socketserve/start*.php') as $start_file)
+    foreach(glob(__DIR__.'/app/socketserve/start*.php') as $start_file)
     {
         require_once $start_file;
     }

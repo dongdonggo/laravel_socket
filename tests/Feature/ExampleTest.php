@@ -14,8 +14,14 @@ class ExampleTest extends TestCase
      */
     public function testBasicTest()
     {
-        $response = $this->get('/');
+//        start "C:\Windows\System32\cmd.exe"
+        $pid=pcntl_fork();
+        if($pid==-1){ //进程创建失败
+            die('fork child process failure!');
+        }
 
-        $response->assertStatus(200);
+//        $response = $this->get('/');
+
+//        $response->assertStatus(200);
     }
 }
