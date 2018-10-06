@@ -13,7 +13,12 @@
     $("#row button").click(function () {
         // alert(123);
         var val = $("#row input").val();
-        doSend(val);
+        var json = {
+            'data':val,
+            'action': 'user/sendmsg',
+            'sign':'123456asdwq',
+         };
+        doSend(JSON.stringify(json));
     });
     function init() {
         output = document.getElementById("output");
@@ -38,7 +43,12 @@
 
     function onOpen(evt) {
         writeToScreen("CONNECTED");
-        doSend("WebSocket rocks");
+        var jsons = {
+            'data':'init',
+            'action': 'user/test',
+            'sign':'123456asdwq',
+        };
+        doSend(JSON.stringify(jsons));
     }
 
     function onClose(evt) {

@@ -20,6 +20,7 @@ namespace handlers;
  */
 //declare(ticks=1);
 
+use App\handlers\WorkerControllers\RouteController;
 use App\Models\User;
 use \GatewayWorker\Lib\Gateway;
 
@@ -49,7 +50,7 @@ class GatewayHandler
     {
 
         // 向当前client_id发送数据
-        Gateway::sendToClient($client_id, 'ss');
+//        Gateway::sendToClient($client_id, 'ss');
         // 向所有人发送
         Gateway::sendToAll("$client_id login\r\n");
     }
@@ -61,10 +62,8 @@ class GatewayHandler
     */
    public static function onMessage($client_id, $message)
    {
-       $res = User::find(1)->toArray();
-
-        // 向所有人发送
-        Gateway::sendToAll(json_encode($res));
+//       Gateway::sendToClient($client_id, $message);
+       app(RouteController::class)->init($client_id, $message);
    }
    
    /**

@@ -22,7 +22,7 @@ class Gateway extends Command
      *
      * @var string
      */
-    protected $description = 'gateway init start stop reload';
+    protected $description = 'gateway init socket tcp reg';
 
     /**
      * Create a new command instance.
@@ -81,10 +81,10 @@ class Gateway extends Command
         // worker名称
         $worker->name = 'AppBusinessWorker';
         // bussinessWorker进程数量
-        $worker->count = 4;
+        $worker->count = config('gateway.count');
         // 服务注册地址
-        $worker->registerAddress = '127.0.0.1:1236';
-        $worker->eventHandler='\handlers\GatewayHandler';
+        $worker->registerAddress = config('gateway.registerAddress');
+        $worker->eventHandler=  config('gateway.eventHandler');
         // 如果不是在根目录启动，则运行runAll方法
         if(!defined('GLOBAL_START'))
         {
@@ -97,24 +97,24 @@ class Gateway extends Command
     {
 
 // gateway 进程，这里使用socket协议，可以用telnet测试
-        $gateway = new Lgateway("Websocket://0.0.0.0:44444");
+        $gateway = new Lgateway("Websocket://0.0.0.0:".config('gateway.socketPort'));
 
 // gateway名称，status方便查看
         $gateway->name = 'socket';
 // gateway进程数 cpu 核心数
-        $gateway->count = 4;
+        $gateway->count = config('gateway.count');
 // 本机ip，分布式部署时使用内网ip
         $gateway->lanIp = '127.0.0.1';
 // 内部通讯起始端口，假如$gateway->count=4，起始端口为4000
 // 则一般会使用4000 4001 4002 4003 4个端口作为内部通讯端口  提供给 BusinessWorker 通讯
         $gateway->startPort = 2901;
-// 服务注册地址
-        $gateway->registerAddress = '127.0.0.1:1236';
+        // 服务注册地址
+        $gateway->registerAddress = config('gateway.registerAddress');
 
-// 心跳间隔
-        $gateway->pingInterval = 10;
-// 心跳数据
-        $gateway->pingData = '{"type":"ping"}';
+        // 心跳间隔
+        $gateway->pingInterval = config('gateway.pingInterval');
+        // 心跳数据
+        $gateway->pingData = config('gateway.pingData');
 
         /*
         // 当客户端连接上来时，设置连接的onWebSocketConnect，即在websocket握手时的回调
@@ -146,7 +146,7 @@ class Gateway extends Command
     public function gatewayTcp()
     {
         // gateway 进程，这里使用Text协议，可以用telnet测试
-        $gateway = new Lgateway("tcp://0.0.0.0:8282");
+        $gateway = new Lgateway("tcp://0.0.0.0:".config('gateway.tcpPort'));
 
 // gateway 进程，这里使用socket协议，可以用telnet测试
 //$gateway = new Gateway("Websocket://0.0.0.0:44444");
@@ -154,19 +154,19 @@ class Gateway extends Command
 // gateway名称，status方便查看
         $gateway->name = 'Gateway';
 // gateway进程数 cpu 核心数
-        $gateway->count = 4;
+        $gateway->count = config('gateway.count');
 // 本机ip，分布式部署时使用内网ip
         $gateway->lanIp = '127.0.0.1';
 // 内部通讯起始端口，假如$gateway->count=4，起始端口为4000
 // 则一般会使用4000 4001 4002 4003 4个端口作为内部通讯端口  提供给 BusinessWorker 通讯 不能和其他协议相同
         $gateway->startPort = 2900;
-// 服务注册地址
-        $gateway->registerAddress = '127.0.0.1:1236';
+        // 服务注册地址
+        $gateway->registerAddress = config('gateway.registerAddress');
 
-// 心跳间隔
-        $gateway->pingInterval = 10;
-// 心跳数据
-        $gateway->pingData = '{"type":"ping"}';
+        // 心跳间隔
+        $gateway->pingInterval = config('gateway.pingInterval');
+        // 心跳数据
+        $gateway->pingData = config('gateway.pingData');
 
         /*
         // 当客户端连接上来时，设置连接的onWebSocketConnect，即在websocket握手时的回调
@@ -211,13 +211,14 @@ class Gateway extends Command
 // 内部通讯起始端口，假如$gateway->count=4，起始端口为4000
 // 则一般会使用4000 4001 4002 4003 4个端口作为内部通讯端口  提供给 BusinessWorker 通讯 不能和其他协议相同
         $gateway->startPort = 2902;
-// 服务注册地址
-        $gateway->registerAddress = '127.0.0.1:1236';
 
-// 心跳间隔
-        $gateway->pingInterval = 10;
-// 心跳数据
-        $gateway->pingData = '{"type":"ping"}';
+        // 服务注册地址
+        $gateway->registerAddress = config('gateway.registerAddress');
+
+        // 心跳间隔
+        $gateway->pingInterval = config('gateway.pingInterval');
+        // 心跳数据
+        $gateway->pingData = config('gateway.pingData');
 
         /*
         // 当客户端连接上来时，设置连接的onWebSocketConnect，即在websocket握手时的回调
@@ -249,7 +250,7 @@ class Gateway extends Command
     public function register()
     {
         // register 必须是text协议
-        $register = new Register('text://0.0.0.0:1236');
+        $register = new Register('text://'.config('gateway.registerAddress'));
 
 // 如果不是在根目录启动，则运行runAll方法
         if(!defined('GLOBAL_START'))

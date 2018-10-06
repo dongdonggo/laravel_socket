@@ -11,9 +11,11 @@
 |
 */
 
-Route::get('/ccc/bb', function () {
+Route::get('/xx', function () {
 //    return $_SERVER;
 //    return view('welcome');
+    msgReturn('123');
+//    GatewayClient\Gateway::sendToAll(123);
 });
 
 Route::get('/aa', function () {
