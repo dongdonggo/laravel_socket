@@ -13,8 +13,10 @@ use Illuminate\Support\Facades\Log;
 
 class MessageController
 {
+
     /**
      *  发送信息
+     * send
      */
     public  function sendmsg()
     {

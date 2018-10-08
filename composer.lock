@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0445454162819c804ce3bd6352e45298",
+    "content-hash": "b9cb75210b8a8aad2e90c74aed00984a",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -177,6 +177,52 @@
                 "parser"
             ],
             "time": "2014-09-09T13:34:57+00:00"
+        },
+        {
+            "name": "dongdonggo/routeauth",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dongdonggo/routeAuth.git",
+                "reference": "2e37339201f9a5790601c7066872b6e0dc55a7c8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dongdonggo/routeAuth/zipball/2e37339201f9a5790601c7066872b6e0dc55a7c8",
+                "reference": "2e37339201f9a5790601c7066872b6e0dc55a7c8",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Dongdonggo\\Routeauth\\RouteauthServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Dongdonggo\\Routeauth\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "dongdong",
+                    "email": "1121190623@qq.com"
+                }
+            ],
+            "description": "api route auth",
+            "time": "2018-08-28T07:46:34+00:00"
         },
         {
             "name": "dragonmantank/cron-expression",
