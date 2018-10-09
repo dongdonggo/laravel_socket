@@ -8,8 +8,8 @@
 
 #admin
 Route::group([
-    'middleware'=>'api',
-    'namespace'=>'Admin',
+    'middleware'=>'web',
+    'namespace'=>'Admin' ,
     'prefix'=>'admin'
 ],function(){
     # dev
@@ -18,8 +18,11 @@ Route::group([
         'prefix'=>'dev'
     ],function (){
 
+        # admin_user
+        Route::get('users/show', 'AdminController@showAdminUser');
+        Route::any('users/adduser', 'AdminController@addAdminUser'); # 添加后台人员
         # role 角色
-        Route::post('/role/create','RoleController@create');
+        /*Route::post('/role/create','RoleController@create');
         Route::post('/role/update','RoleController@update');
         Route::post('/role/show', 'RoleController@show');
         Route::post('/role/delete','RoleController@delete');
@@ -32,6 +35,6 @@ Route::group([
         Route::post('/route/delete','routeController@delete');
 
         #user_roled  给用户分配角色
-        Route::post('/userrole/createorupdate','UserRoleController@create');
+        Route::post('/userrole/createorupdate','UserRoleController@create');*/
     });
 });

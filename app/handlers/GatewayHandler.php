@@ -36,7 +36,7 @@ class GatewayHandler
     public function __construct()
     {
         //加载index文件的内容
-        require __DIR__ . '/../vendor/autoload.php';
+//        require __DIR__ . '/../vendor/autoload.php';
 //        require_once __DIR__ . '/../bootstrap/app.php';
     }
 

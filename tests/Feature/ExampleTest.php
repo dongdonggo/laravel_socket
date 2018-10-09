@@ -24,4 +24,18 @@ class ExampleTest extends TestCase
 
 //        $response->assertStatus(200);
     }
+
+    /**
+     * 添加管理员
+     */
+    public function testAdminadd()
+    {
+        $response = $this->get('/admin/dev/users/adduser',[
+            'username' => 'dongodng',
+            'password' => 'sdfdsf',
+            'type' => 2,
+        ]);
+        viewtest($response->getContent());
+        $response->assertStatus(200);
+    }
 }

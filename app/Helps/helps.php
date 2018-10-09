@@ -66,3 +66,11 @@ if (!function_exists('makeAuthToken')) {
         return substr(md5(bcrypt(1)), 8, 16);#16位
     }
 }
+
+if (! function_exists('viewtest')) {
+    function viewtest($data)
+    {
+        $res =  json_decode($data, true);
+        dump($res);
+    }
+}

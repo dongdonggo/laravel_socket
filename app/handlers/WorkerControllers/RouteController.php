@@ -152,7 +152,6 @@ class RouteController
             return ;
         }
         $arr = explode('@', $this->route);
-        var_dump($arr);
 
         $class = new \ReflectionClass(__NAMESPACE__.'\\'.$arr[0]);
         if ($class->hasMethod($arr[1])) {

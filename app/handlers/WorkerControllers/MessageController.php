@@ -18,9 +18,9 @@ class MessageController
      *  发送信息
      * send
      */
-    public  function sendmsg()
+    public  function sendmsg($data)
     {
-
+       return '12321';
     }
 
 }
