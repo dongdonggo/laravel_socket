@@ -24,29 +24,12 @@
                         </div>
                         <!-- /.box-header -->
                         <!-- form start -->
-                        <form action="/admin/dev/users/add" method="post" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data" pjax-container="">
+                        <form action="/admin/dev/roles/create" method="post" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data" pjax-container="">
 
                             <div class="box-body">
 
                                 <div class="fields-group">
 
-                                    <div class="form-group  ">
-
-                                        <label for="username" class="col-sm-2  control-label">用户名</label>
-
-                                        <div class="col-sm-8">
-
-
-                                            <div class="input-group">
-
-                                                <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
-
-                                                <input type="text" id="username" name="username" value="" class="form-control username" placeholder="输入 用户名">
-                                            </div>
-
-
-                                        </div>
-                                    </div>
                                     <div class="form-group  ">
 
                                         <label for="name" class="col-sm-2  control-label">名称</label>
@@ -58,7 +41,7 @@
 
                                                 <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
 
-                                                <input type="text" id="name" name="name" value="" class="form-control name" placeholder="输入 名称">
+                                                <input type="text" id="name" name="name" value="" class="form-control username" placeholder="输入 名称">
                                             </div>
 
 
@@ -66,33 +49,22 @@
                                     </div>
                                     <div class="form-group  ">
 
-                                        <label for="password" class="col-sm-2  control-label">密码</label>
+                                        <label for="name" class="col-sm-2  control-label">描述</label>
 
                                         <div class="col-sm-8">
 
 
                                             <div class="input-group">
 
-                                                <span class="input-group-addon"><i class="fa fa-eye-slash fa-fw"></i></span>
+                                                <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
 
-                                                <input type="password" id="password" name="password" value="" class="form-control password" placeholder="输入 密码">
+                                                <input type="text" id="description" name="description" value="" class="form-control name" placeholder="输入 描述">
                                             </div>
 
 
                                         </div>
                                     </div>
-                                    <div class="form-group  ">
 
-                                        <label for="roles" class="col-sm-2  control-label">角色</label>
-
-                                        <div class="col-sm-8">
-                                            <select class="form-control roles select2-hidden-accessible" style="width: 100%;" name="role" multiple="" data-placeholder="输入 角色" data-value="" tabindex="-1" aria-hidden="true">
-                                                @foreach($roles as $key=>$val)
-                                                    <option value="{{ $val->id }}">{{ $val->name  }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
                                 </div>
 
                             </div>

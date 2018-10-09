@@ -28,14 +28,14 @@
             <li class="header">MAIN NAVIGATION</li>
             <li class="active treeview">
                 <a href="#">
-                    <i class="fa fa-dashboard"></i> <span>账户管理</span>
+                    <i class="fa fa-dashboard"></i> <span>系统管理</span>
                     <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
                 </a>
                 <ul class="treeview-menu">
                     <li class="active"><a href="/admin/dev/users/show"><i class="fa fa-circle-o"></i>账户管理</a></li>
-                    {{--<li><a href="index2.html"><i class="fa fa-circle-o"></i> 账户管理</a></li>--}}
+                    <li><a href="/admin/dev/roles/show"><i class="fa fa-circle-o"></i> 角色管理</a></li>
                 </ul>
             </li>
             <li><a href="/admin/dev/custom"><i class="fa fa-circle-o text-red"></i> <span>客服系统</span></a></li>
