@@ -9,6 +9,7 @@
 namespace App\handlers\WorkerControllers;
 
 
+use GatewayWorker\Lib\Gateway;
 use http\Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -21,6 +22,7 @@ class RouteController
      * @var
      */
     protected  $data;
+    protected  $uid; # 绑定的用户id
     protected  $error = ['status'=>true,'msg'=>'no error']; #运行抛出的错误
     protected  $response; # 处理完成返回的数据
     protected  $route; #  访问的路由
@@ -50,9 +52,10 @@ class RouteController
     /**
      * 初始化
      */
-    public function init($client_id,$data)
+    public function init($client_id,$data,$uid)
     {
         $this->accept_client_id = $client_id;
+        $this->uid = $uid;
         $this->dataValidate($data); #数据验证
         $this->routeValidate(); #验证
         $this->routeResolution(); #路由执行
@@ -110,6 +113,7 @@ class RouteController
             return true;
         }
     }
+
     /**
      * 数据验证
      */
@@ -161,10 +165,30 @@ class RouteController
                     'status' => false,
                     'msg' => $routestr.' is  auth error',
                 ];
+                Log::stack(['socket'])->error(json_encode($this->error));
             }
-            Log::stack(['socket'])->error(json_encode($this->error));
+            # 路由权限uid认证
+            $this->routeValidateUid();
         }
 
+    }
+
+    /**
+     * 路由 验证之 uid
+     */
+    public function routeValidateUid()
+    {
+        if (!$this->isError()) {
+            return ;
+        }
+
+        if (!$this->uid) {
+            $routes = $this->routes();
+            $default = $routes['default'];
+            if ($this->route != $default) {
+                Gateway::closeClient($this->accept_client_id);
+            }
+        }
     }
     /**
      * 路由解析 执行
@@ -178,7 +202,7 @@ class RouteController
 
         $class = new \ReflectionClass(__NAMESPACE__.'\\'.$arr[0]);
         if ($class->hasMethod($arr[1])) {
-            $obj = $class->newInstance ($this->data['data']);
+            $obj = $class->newInstance ($this->data['data'], $this->accept_client_id);
             $classMethod = new \ReflectionMethod(__NAMESPACE__.'\\'.$arr[0], $arr[1]);
             $res = $classMethod ->invoke($obj,$arr[1],$this->data['data']);
             $this->resDataCase($res);

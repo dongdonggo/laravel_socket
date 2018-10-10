@@ -50,10 +50,10 @@ class GatewayHandler
     {
 
         // 设置一个定时器，$timeout 秒后关闭连接
-        $timeout = 5;
+   /*     $timeout = 5;
         $_SESSION['timer_id'] = Timer::add($timeout, function($client_id){
-            Gateway::closeClient($client_id);
-        }, array($client_id), false);
+                Gateway::closeClient($client_id);
+        }, array($client_id), false);*/
 
         // 向当前client_id发送数据
 //        Gateway::sendToClient($client_id, 'ss');
@@ -72,9 +72,10 @@ class GatewayHandler
         // 如果没有uid
        if(!$uid)
        {
-
+            # 进入认证流程
+           app(RouteController::class)->init($client_id, $message,$uid);
        } else {
-           app(RouteController::class)->init($client_id, $message)
+           app(RouteController::class)->init($client_id, $message,$uid);
        };
 
 

@@ -20,7 +20,9 @@ return [
             'sendgroup'=> '', #发送给群
         ],
         'auth' => [
-         'bind' => 'ConnectController@authBind'   # 账号认证 绑定 client_id
-        ]
+         'bind' => 'ConnectController@authBind',   # 账号认证 绑定 client_id
+//         'default' => 'ConnectController@authBind',
+        ],
+        'default' => 'ConnectController@authBind',
     ]
     ];

@@ -307,25 +307,18 @@
 <!-- /.content-wrapper -->
 <script>
     $('#socket_start').click(function () {
-        var wsUri ="ws://127.0.0.1:44444/?token=1852";
+        var wsUri ="ws://127.0.0.1:44444";
         testWebSocket(wsUri);
 
         //发送认证 信息 token  请求接口，获取一个token uuid
-        $.ajax({
-            url: '',
-            data: { },
-            success: function ($data) {
-                var token  = '';
-                var uuid = '';
-                doSend({
-                //认证
-                    "token":token,
-                    "type" : 'custom',
-                    "uuid" : uuid,
-                },'auth/bind');
-            }
-        });
+        // $.ajax({
+        //     url: '',
+        //     data: { },
+        //     success: function ($data) {
 
+    //         }
+    //     });
+    //
     });
 
     //暂停
@@ -357,23 +350,28 @@
     }
 
     function onOpen(evt) {
-        /*      var jsons = {
-                  'data':'init',
-                  'action': 'user/test',
-                  'sign':'123456asdwq',
-              };*/
-        // doSend(JSON.stringify(jsons));
+        console.log('onOpen socket',evt)
+        var token  = '66ab5577974e9f50';
+        var uuid = '7272aee0-cbc8-11e8-a6af-33fed8b105fd';
+        doSend({
+            //认证
+            "token":token,
+            "type" : 'custom',
+            "uuid" : uuid,
+        },'auth/bind');
+
     }
 
     function onClose(evt) {
-
+        console.log('onClose socket',evt)
     }
 
     function onMessage(evt) {
+        console.log('onMessage socket',evt)
     }
 
     function onError(evt) {
-
+        console.log('onError socket',evt)
     }
 
     function doSend(message,action) {

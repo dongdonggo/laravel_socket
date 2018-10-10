@@ -10,6 +10,7 @@ namespace App\handlers\WorkerControllers;
 
 
 
+use GatewayWorker\Lib\Gateway;
 use Illuminate\Support\Facades\Log;
 use App\Model\AdminUser;
 use Illuminate\Support\Facades\Validator;
@@ -17,9 +18,11 @@ use Illuminate\Support\Facades\Validator;
 class ConnectController extends RouteController
 {
     protected $data;
-    public function __construct($data)
+    protected $client_id;
+    public function __construct($data,$client_id)
     {
         $this->data = $data;
+        $this->client_id = $client_id;
     }
 
     /**
@@ -77,15 +80,17 @@ class ConnectController extends RouteController
             ->where('auth_token',$this->data['token'])
             ->first();
         if (!$admin) {
-            return [
-                'status' => false,
-                'data' => 'auth fail'
-            ];
+            Log::stack(['socket'])->error( 'authAdmin,auth fail');
+            Gateway::closeClient($this->client_id);
         }
         #  绑定 到客服表数据
         #  区分 已认证 和 未认证 client
         #
-
+        Gateway::bindUid($this->client_id,$admin->id);
+        return [
+            'status' => true,
+            'data' => 'auth success'
+        ];
     }
     /**
      *  客服系统
