@@ -11,5 +11,9 @@ namespace App\handlers\WorkerControllers;
 
 class CloseController
 {
-
+    protected $data;
+    public function __construct($data)
+    {
+        $this->data = $data;
+    }
 }

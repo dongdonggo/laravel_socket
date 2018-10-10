@@ -34,4 +34,13 @@ class AdminUser extends Model
     {
         return $this->belongsToMany(AdminRole::class,'admin_user_roles','ausers_id','aroles_id');
     }
+
+    /**
+     * user 用户
+     */
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'custom_messages', 'ausers_id','users_id')
+            ->withPivot('message','created_at','updated_at');
+    }
 }

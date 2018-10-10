@@ -55,6 +55,12 @@ class User extends Model
         return $this->belongsToMany(Role::class, 'user_roles', 'users_id', 'roles_id');
     }
 
+    # AdminUser
+    public function admin()
+    {
+        return $this->belongsToMany(AdminUser::class, 'custom_messages', 'users_id','ausers_id')
+                ->withPivot('message','created_at','updated_at');
+    }
 
     /**
      * auth_token 访问修改器，

@@ -18,6 +18,9 @@ return [
             'sendmsg' => 'MessageController@sendmsg',
             'sendfriend'=> '', #发送给好友
             'sendgroup'=> '', #发送给群
+        ],
+        'auth' => [
+         'bind' => 'ConnectController@authBind'   # 账号认证 绑定 client_id
         ]
     ]
     ];

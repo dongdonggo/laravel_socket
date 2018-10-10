@@ -57,7 +57,7 @@ class LoginController extends Controller
         }
         if(Hash::check($request->get('password'), $admin->password)){
 
-            session(['admin' => json_encode($admin->toArray())]);
+            session(['admin' => json_encode($admin)]);
             return redirect('/admin/dev/users/show');
         }
       /*  if (Hash::check($request->get('password'), $admin->password) {

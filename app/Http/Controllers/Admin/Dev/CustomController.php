@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin\Dev;
 
+use App\Model\AdminUser;
+use App\Model\CustomMessage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -15,10 +17,23 @@ class CustomController extends Controller
     #一个客服最多服务2个人，结束后，关闭会话 触发排号系统
 
      #客服会话列表
-    public function getAll(Request $request)
+    public function show(Request $request)
+    {
+        $admin = $request->admin;
+        # 关联查询  直接查询  group by 之后 反向关联查询
+        $data = CustomMessage::with('user')
+            ->where('ausers_id',$admin->id)
+            ->groupBy('users_id')
+            ->get()->toArray();
+        return view('admin.dev.custom.show', compact('data'));
+    }
+
+    /*
+     * socket 认证
+     */
+    public function getToken()
     {
 
     }
-
 
 }

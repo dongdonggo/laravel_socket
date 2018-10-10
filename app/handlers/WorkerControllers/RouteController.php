@@ -88,6 +88,29 @@ class RouteController
         return false;
     }
     /**
+     * 处理后返回数据根式是否正确
+     */
+    public function isFormat(array $res)
+    {
+        $validate = Validator::make($res, [
+            'data' => 'required',
+            'status' => 'required',
+        ],[
+            'required' => "返回数据格式不正确 ['data'=>'','status'=>'']"
+        ]);
+        if( $validate->fails() ) {
+            $error = $validate->errors();
+            $this->error = [
+                'status' => false,
+                'msg' => json_encode($error)
+            ];
+            Log::stack(['socket'])->error( json_encode($this->error));
+            return false;
+        } else {
+            return true;
+        }
+    }
+    /**
      * 数据验证
      */
     public function dataValidate($data)
@@ -155,9 +178,10 @@ class RouteController
 
         $class = new \ReflectionClass(__NAMESPACE__.'\\'.$arr[0]);
         if ($class->hasMethod($arr[1])) {
-            $obj = $class->newInstanceArgs();
+            $obj = $class->newInstance ($this->data['data']);
             $classMethod = new \ReflectionMethod(__NAMESPACE__.'\\'.$arr[0], $arr[1]);
-            $this->response = $classMethod ->invoke($obj,$arr[1],$this->data['data']);
+            $res = $classMethod ->invoke($obj,$arr[1],$this->data['data']);
+            $this->resDataCase($res);
         } else {
             $this->error = [
                 'status' => false,
@@ -168,6 +192,16 @@ class RouteController
 
     }
 
+    /**
+     * 逻辑处理后台返回数据处理
+     */
+    public function resDataCase(array $res)
+    {
+        if($this->isFormat($res)) {
+            $res['status'] ? ($this->response = $res['data']) : ($this->error = $res['data']);
+        }
+    }
+    
     /**
      * 安全过滤
      */

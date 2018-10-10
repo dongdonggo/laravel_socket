@@ -38,7 +38,7 @@
                     <li><a href="/admin/dev/roles/show"><i class="fa fa-circle-o"></i> 角色管理</a></li>
                 </ul>
             </li>
-            <li><a href="/admin/dev/custom"><i class="fa fa-circle-o text-red"></i> <span>客服系统</span></a></li>
+            <li><a href="/admin/dev/custom/show"><i class="fa fa-circle-o text-red"></i> <span>客服系统</span></a></li>
             <li class="header">LABELS</li>
             <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>客服系统</span></a></li>
             <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>

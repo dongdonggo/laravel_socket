@@ -20,6 +20,7 @@ class adminOuth
         if (!$admin ) {
             return redirect('/auth/login');
         }
+        $request->admin =json_decode($admin) ;
         return $next($request);
     }
 }

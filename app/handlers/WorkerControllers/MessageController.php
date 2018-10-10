@@ -14,11 +14,16 @@ use Illuminate\Support\Facades\Log;
 class MessageController
 {
 
+    protected $data;
+    public function __construct($data)
+    {
+        $this->data = $data;
+    }
     /**
      *  发送信息
      * send
      */
-    public  function sendmsg($data)
+    public  function sendmsg()
     {
        return '12321';
     }
