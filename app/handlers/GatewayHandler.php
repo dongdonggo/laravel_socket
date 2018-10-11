@@ -72,9 +72,9 @@ class GatewayHandler
         // 如果没有uid
        if(!$uid)
        {
-
+            # 进入绑定流程 执行  错误时，kill   成功 绑定
        } else {
-           app(RouteController::class)->init($client_id, $message)
+           app(RouteController::class)->init($client_id, $message);
        };
 
 

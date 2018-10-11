@@ -69,3 +69,6 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 
  composer require webpatser/laravel-uuid
+ 
+ https://wenda.workerman.net/question/548 
+ 
