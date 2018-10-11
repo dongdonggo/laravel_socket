@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use GatewayClient\Gateway;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -15,14 +16,8 @@ class ExampleTest extends TestCase
     public function testBasicTest()
     {
 //        start "C:\Windows\System32\cmd.exe"
-        $pid=pcntl_fork();
-        if($pid==-1){ //进程创建失败
-            die('fork child process failure!');
-        }
-
-//        $response = $this->get('/');
-
-//        $response->assertStatus(200);
+        $res = Gateway::getUidByClientId('7f0000010b550000001a');
+        dump($res);
     }
 
     /**

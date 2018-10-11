@@ -12,6 +12,10 @@
             <small>13 人等待中 </small>
         </h1>
         <ol class="breadcrumb">
+            <a href="#" id="socket_start" class="btn btn-primary  margin-bottom" data-start="end">开 始 </a>
+            <a href="#" id="socket_pause" class="btn btn-warning margin-bottom" data-start="end">暂 停 </a>
+            <a href="#" id="socket_end" class="btn btn-default margin-bottom" data-start="end">下 线</a>
+
             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
             <li class="active">Mailbox</li>
         </ol>
@@ -19,11 +23,40 @@
 
     <!-- Main content -->
     <section class="content">
+        <h2 class="page-header">
+
+        </h2>
+
+
+        <!-- /.row -->
         <div class="row">
+
             <div class="col-md-3">
-                <a href="#" id="socket_start" class="btn btn-primary btn-block margin-bottom" data-start="end">开 始 接 待</a>
-                <a href="#" id="socket_pause" class="btn btn-warning btn-block margin-bottom" data-start="end">暂 停 接 待</a>
-                <a href="#" id="socket_end" class="btn btn-default btn-block margin-bottom" data-start="end">下 线</a>
+                <!-- Widget: user widget style 1 -->
+                <div class="box box-widget widget-user-2">
+                    <!-- Add the bg color to the header using any of the bg-* classes -->
+                    <div class="widget-user-header bg-aqua-active">
+                        <div class="widget-user-image">
+                            <img class="img-circle" src="/dist/img/user7-128x128.jpg" alt="User Avatar">
+                        </div>
+                        <!-- /.widget-user-image -->
+                        <h3 class="widget-user-username">Nadia Carmichael</h3>
+                        <h5 class="widget-user-desc">Lead Developer
+                            <span class="pull-right badge " id = 'online_bg'>Online</span>
+                        </h5>
+
+                    </div>
+                    <div class="box-footer no-padding">
+                        <ul class="nav nav-stacked">
+                            <li><a href="#">Projects <span class="pull-right badge bg-blue">31</span></a></li>
+                            <li><a href="#">Tasks <span class="pull-right badge bg-aqua">5</span></a></li>
+                            <li><a href="#">Completed Projects <span class="pull-right badge bg-green">12</span></a></li>
+                            <li><a href="#">Followers <span class="pull-right badge bg-red">842</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- /.widget-user -->
+
 
                 <div class="box box-solid">
                     <div class="box-header with-border">
@@ -69,7 +102,7 @@
                 </div>
                 <!-- /.box -->
             </div>
-            <!-- /.col -->
+
             <!-- /.col -->
             <div class="col-md-9">
                 <div class="box box-primary">
@@ -90,9 +123,9 @@
                         <div class="row">
                             <div class="col-md-5">
                                 <!-- DIRECT CHAT SUCCESS -->
-                                <div class="box box-success direct-chat direct-chat-success">
+                                <div class="box box-success direct-chat direct-chat-success" >
                                     <div class="box-header with-border">
-                                        <h3 class="box-title">Direct Chat</h3>
+                                        <h3 class="box-title" >Direct Chat</h3>
 
                                         <div class="box-tools pull-right">
                                             <span data-toggle="tooltip" title="3 New Messages" class="badge bg-green">3</span>
@@ -166,10 +199,10 @@
                                     <div class="box-footer">
                                         <form action="#" method="post">
                                             <div class="input-group">
-                                                <input type="text" name="message" placeholder="Type Message ..." class="form-control">
+                                                <input type="text" name="message"  placeholder="Type Message ..." class="form-control">
                                                 <span class="input-group-btn">
-                        <button type="submit" class="btn btn-success btn-flat">Send</button>
-                      </span>
+                                                    <button type="button" class="btn btn-success btn-flat" data-clientid="01234564ss" onclick="sendMsg($(this).parent().parent().find('input').val(), $(this).attr('data-clientid'))">Send</button>
+                                                </span>
                                             </div>
                                         </form>
                                     </div>
@@ -349,17 +382,53 @@
         };
     }
 
-    function onOpen(evt) {
-        console.log('onOpen socket',evt)
-        var token  = '66ab5577974e9f50';
-        var uuid = '7272aee0-cbc8-11e8-a6af-33fed8b105fd';
-        doSend({
-            //认证
-            "token":token,
-            "type" : 'custom',
-            "uuid" : uuid,
-        },'auth/bind');
+    /**
+     * 绑定认证
+     * @param client_id
+     */
+    function binduid(client_id) {
 
+        $.ajax({
+            url: '/admin/dev/custom/bind',
+            type: 'POST',
+            data: {
+                'client_id':client_id
+            },
+            success:function ($query) {
+                console.log($query);
+                switch ($query.status) {
+                    case '-1':
+                        alert($query.msg);
+                        break;
+                    case '0':
+                        $('#online_bg').removeClass('bg-green ');
+                        $('#online_bg').addClass('bg-green');
+                        break;
+                }
+
+            },
+            error:function ($response, $sr) {
+                console.log($response.responseJSON);
+            }
+        })
+    }
+
+    /**
+     * 发送消息给用户
+     * @param message
+     * @param sendid
+     */
+    function sendMsg(message,sendid)
+    {
+           var jsondata = {
+        'msg': message
+    };
+        doSend(jsondata, routes.sendmsg,sendid);
+    }
+
+    function onOpen(evt) {
+        console.log('onOpen socket',evt);
+        // binduid(evt);
     }
 
     function onClose(evt) {
@@ -367,17 +436,35 @@
     }
 
     function onMessage(evt) {
-        console.log('onMessage socket',evt)
+        var json = JSON.parse(evt.data);
+        console.log(json);
+        if (!json.status) {
+            alert(json.msg);
+        } else {
+            switch (json.type) {
+                case 'connect':
+                    binduid(json.data.client_id);
+                    break;
+                case 'ping':
+                    console.log(json);
+                    break;
+                case 'default':
+                    console.log(json);
+                    break;
+            }
+        }
+
     }
 
     function onError(evt) {
         console.log('onError socket',evt)
     }
 
-    function doSend(message,action) {
+    function doSend(message, action, send_clientid) {
         var json = {
             'data':message,
             'action': action,//'user/sendmsg',
+            'sendto': send_clientid,
             'sign':'123456asdwq',
         };
         var str = JSON.stringify(json);

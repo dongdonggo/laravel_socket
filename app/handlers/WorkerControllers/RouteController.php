@@ -74,9 +74,9 @@ class RouteController
         # 返回值
         if ( !$this->isError() ) {
             $this->send_client_id = $this->accept_client_id;
-           msgReturn('',  $this->send_client_id,  $this->error['msg'], false);
+           msgReturn('',  $this->send_client_id,  'sys', 'error', $this->error['msg'], false);
         } else {
-            msgReturn($this->response, $this->send_client_id);
+            msgReturn($this->response, $this->send_client_id, $this->send_client_id, 'message');
         }
     }
 
@@ -107,13 +107,20 @@ class RouteController
                 'status' => false,
                 'msg' => json_encode($error)
             ];
-            Log::stack(['socket'])->error( json_encode($this->error));
+            Log::stack(['socket'])->error( 'resDataCase->isFormat '.json_encode($this->error));
             return false;
         } else {
             return true;
         }
     }
 
+    /**
+     *
+     */
+    public function isOnline($client_id)
+    {
+       return Gateway::isOnline($client_id);
+    }
     /**
      * 数据验证
      */
@@ -124,6 +131,7 @@ class RouteController
             'data' => 'required',
             'sign' => 'required',
             'action' => 'required',
+            'sendto' => 'required'
         ],[
             'required' => '数据不完整'
         ]);
@@ -133,9 +141,18 @@ class RouteController
                 'status' => false,
                 'msg' => json_encode($error)
             ];
-            Log::stack(['socket'])->error( json_encode($this->error));
+            Log::stack(['socket'])->error( 'dataValidate '.json_encode($this->error));
         } else {
             $this->data = $arr;
+
+            $this->send_client_id = $this->data['sendto'];
+            if (!$this->isOnline($this->send_client_id)) {
+                $this->error = [
+                    'status' => false,
+                    'msg' => ' send_client_id is not Online '
+                ];
+                Log::stack(['socket'])->error( 'send_client_id is not Online  ');
+            }
         }
     }
 

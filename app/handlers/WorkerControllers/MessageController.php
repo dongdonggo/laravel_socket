@@ -25,7 +25,11 @@ class MessageController
      */
     public  function sendmsg()
     {
-       return '12321';
+        var_dump($this->data);
+       return [
+           'status' => true,
+           'data' => $this->data['msg']
+       ];
     }
 
 }

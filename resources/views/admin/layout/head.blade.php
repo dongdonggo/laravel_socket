@@ -46,6 +46,7 @@
 
 </head>
 
+@extends('admin.layout.route')
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
@@ -321,4 +322,5 @@
 @extends('admin.layout.foot');
 {{--侧边导航栏--}}
 @extends('admin.layout.sidebar');
+
 

@@ -7,19 +7,27 @@
  */
 
 if (!function_exists('msgReturn')) {
-    function msgReturn ($data, $client_id = null, $msg = 'success', $status = true)
+    function msgReturn ($data, $to_client_id = null, $from_client_id = 'sys', $type = 'default', $msg = 'success', $status = true)
     {
         $res = [
             'sign' => 123482365,
+            'type' => $type,
             'data' => $data,
             'status' => $status,
+            'to' => $to_client_id? 'all' : $to_client_id,
+            'from' => $from_client_id ,
             'msg' => $msg
         ];
         $jsonstr = json_encode($res);
-        if (!$client_id) {
+        if (!$to_client_id) {
             \GatewayClient\Gateway::sendToAll($jsonstr);
         } else {
-            \GatewayClient\Gateway::sendToClient($client_id, $jsonstr);
+            try{
+                \GatewayClient\Gateway::sendToClient($to_client_id, $jsonstr);
+            } catch (Exception $exception) {
+                \Illuminate\Support\Facades\Log::stack(['scoket'])->error('msgReturn  scoket');
+            }
+
         }
     }
 }
@@ -36,7 +44,7 @@ if(!function_exists('returnSuccess')){
 }
 
 if(!function_exists('returnFail')){
-    function returnFail ($data,$message, $ercode){
+    function returnFail ($data,$message, $ercode='500'){
         return response([
             'status' => '-1',
             'data'=> $data,
