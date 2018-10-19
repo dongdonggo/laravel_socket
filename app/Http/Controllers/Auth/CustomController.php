@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Dev;
+namespace App\Http\Controllers\Auth;
 
 use App\Model\AdminUser;
 use App\Model\CustomMessage;
+use App\Model\Wait;
 use GatewayClient\Gateway;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -22,21 +23,48 @@ class CustomController extends Controller
     {
         $admin = $request->admin;
         # 关联查询  直接查询  group by 之后 反向关联查询
-        $data = CustomMessage::with('user')
+        $data = CustomMessage::query()
             ->where('ausers_id',$admin->id)
-            ->groupBy('users_id')
+            ->groupBy('person_id')
             ->get()->toArray();
         return view('admin.dev.custom.show', compact('data'));
     }
 
-    /*
-     * socket 认证
+
+
+    /**
+     *  客服绑定
      */
-    public function getToken()
+    public function socketBindPerson(Request $request)
     {
+        # 登录用户验证
+     $request->validate([
+            'client_id' => 'required',
+        ],[
+            'request data is error'
+        ]);
+        $client_id = $request->get('client_id');
+        $uid = Gateway::getUidByClientId($client_id);
+        $msg = CustomMessage::query()
+             ->where('person_id',$uid)
+             ->orderBy('created_at','desc')
+             ->first();
+        if ($msg) {  #，之前咨询过的用户，直接，排队给相关工作人员。
+            $wait = app(Wait::class)->add($client_id,$msg->ausers_id);
+            return returnSuccess('','wait success');
+        } else {  # 进行绑定
+            #订单号生成。
+            $ordernum = date('Ymd').substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
+            #绑定订单号，
+            Gateway::bindUid($client_id,$ordernum);
+            # 插入等待表，
+            $wait = app(Wait::class)->add($client_id);
+
+            return returnSuccess($wait,'new wait success');
+        }
 
     }
-
+    
     /**
      * 验证 客服认证 绑定Uid
      */
@@ -71,5 +99,10 @@ class CustomController extends Controller
         $adminuser->save();
         return returnSuccess('','bind success');
     }
+
+    /**
+     * 绑定 无账号 用户client
+     */
+
 }
 

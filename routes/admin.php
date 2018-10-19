@@ -29,9 +29,7 @@ Route::group(['middleware'=>'web'],function (){
             # role 角色
             Route::get('/roles/show', 'AdminroleController@show');
             Route::any('/roles/create','AdminroleController@create');
-            # custom 客服
-            Route::get('/custom/show', 'CustomController@show');
-            Route::post('/custom/bind', 'CustomController@socketBindAdmin');
+
 
             /*Route::post('/role/create','RoleController@create');
             Route::post('/role/update','RoleController@update');

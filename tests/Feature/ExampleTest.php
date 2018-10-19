@@ -2,6 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Model\AdminUser;
+use Barryvdh\Debugbar\Twig\Extension\Debug;
+use DebugBar\DebugBar;
 use GatewayClient\Gateway;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -15,9 +18,16 @@ class ExampleTest extends TestCase
      */
     public function testBasicTest()
     {
-//        start "C:\Windows\System32\cmd.exe"
-        $res = Gateway::getUidByClientId('7f0000010b550000001a');
-        dump($res);
+
+
+//        DebugBar::disable();
+        $response = $this->post('/testva', [
+            'brand_id' => 1,
+            'modelpn_id' => 1,
+            'country_id' =>1,
+        ]);
+        dump($response->getContent());
+        dump($response->getStatusCode());
     }
 
     /**
@@ -33,4 +43,10 @@ class ExampleTest extends TestCase
         viewtest($response->getContent());
         $response->assertStatus(200);
     }
+
+    public function testatest()
+    {
+        $admin = AdminUser::query()->first();
+        $admin->load('roles');
+}
 }

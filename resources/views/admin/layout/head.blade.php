@@ -46,7 +46,6 @@
 
 </head>
 
-@extends('admin.layout.route')
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 

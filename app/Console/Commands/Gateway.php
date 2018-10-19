@@ -15,7 +15,7 @@ class Gateway extends Command
      *
      * @var string
      */
-    protected $signature = 'gateway:{action}';
+    protected $signature = 'gateway {action}';
 
     /**
      * The console command description.
@@ -41,10 +41,7 @@ class Gateway extends Command
      */
     public function handle()
     {
-        global $argv;
         $arg = $this->argument('action');
-        $argv[1] = $argv[2];
-        $argv[2] = isset($argv[3]) ? "-{$argv[3]}" : '';
         switch ($arg) {
             case 'init':
                 $this->business();

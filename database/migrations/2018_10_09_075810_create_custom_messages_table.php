@@ -16,7 +16,7 @@ class CreateCustomMessagesTable extends Migration
         Schema::create('custom_messages', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('ausers_id')->unsigned()->comment('客服id');
-            $table->integer('users_id')->unsigned()->comment('用户id');
+            $table->integer('person_id')->unsigned()->comment('咨询者的id');
             $table->integer('to')->unsigned()->comment('接受方id');
             $table->string('message')->comment('内容');
             $table->timestamps();

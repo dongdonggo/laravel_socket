@@ -11,12 +11,26 @@
 |
 */
 
+Route::group([
+    'middleware' => 'web',
+    'namespace' => 'Auth',
+    'prefix' => 'auth'
+],function(){
+    # custom 客服
+    Route::get('/custom/show', 'CustomController@show');
+    Route::post('/custom/adminbind', 'CustomController@socketBindAdmin');
+    Route::post('/custom/persionbind', 'CustomController@socketBindPerson');
+});
+
 Route::get('/xx', function () {
 //    return $_SERVER;
 //    return view('welcome');
     msgReturn('123');
 //    GatewayClient\Gateway::sendToAll(123);
 });
+
+Route::get('/testa','TestController@testa');
+Route::any('/testva','TestController@testva');
 
 Route::get('/aa', function () {
 //    $list = \GatewayClient\Gateway::;
