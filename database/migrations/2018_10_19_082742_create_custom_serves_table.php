@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateWaitsTable extends Migration
+class CreateCustomServesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateWaitsTable extends Migration
      */
     public function up()
     {
-        Schema::create('waits', function (Blueprint $table) {
+        # 客服正在接待的人
+        Schema::create('custom_serves', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('tempuser_id')->comment('临时的用户id ');
-            $table->integer('custom_id')->nullable()->comment('等待客服的id');
-            $table->integer('status')->default(1)->comment('处理状态: 1 等待中，2，已接待');
+            $table->integer('ausers_id')->unsigned()->comment('客服ID');
+            $table->integer('person_id')->comment('用户ID or orderid');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateWaitsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('waits');
+        Schema::dropIfExists('custom_serves');
     }
 }

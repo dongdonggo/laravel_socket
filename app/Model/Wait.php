@@ -14,10 +14,10 @@ class Wait extends Model
      * 排队添加
      * $client_id ,为 重新连接时，查询到的客服id
      */
-    public function add($client_id, $custom_id=null)
+    public function add($tempuser_id, $custom_id=null)
     {
       return  static::create([
-            'client_id' =>$client_id,
+            'tempuser_id' =>$tempuser_id,
             'custom_id' => $custom_id,
             'status' => 1,
         ]);

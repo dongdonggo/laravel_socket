@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Model\AdminUser;
+use App\Services\CustomerService;
 use Barryvdh\Debugbar\Twig\Extension\Debug;
 use DebugBar\DebugBar;
 use GatewayClient\Gateway;
@@ -46,7 +47,12 @@ class ExampleTest extends TestCase
 
     public function testatest()
     {
-        $admin = AdminUser::query()->first();
-        $admin->load('roles');
-}
+//        $admin = AdminUser::query()->first();
+//        $admin->load('roles');
+//        $data = app(CustomerService::class)->sendWaitNum();
+//        dump($data->toArray());
+        $data = Gateway::getAllUidList();
+        $data =  Gateway::getAllClientIdList();
+        dump($data);
+    }
 }

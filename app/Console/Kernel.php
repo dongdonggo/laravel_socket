@@ -18,6 +18,7 @@ class Kernel extends ConsoleKernel
     ];
 
     /**
+     * 任务调度执行
      * Define the application's command schedule.
      *
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule

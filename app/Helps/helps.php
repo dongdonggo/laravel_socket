@@ -7,6 +7,15 @@
  */
 
 if (!function_exists('msgReturn')) {
+    /**
+     * @param $data
+     * @param null $to_client_id 发给的client_id
+     * @param string $from_client_id 来自的client_id, 默认为系统
+     * @param string $type  error,close
+     * @param string $msg
+     * @param bool $status   成功还是失败的 返回数据
+     * @throws Exception
+     */
     function msgReturn ($data, $to_client_id = null, $from_client_id = 'sys', $type = 'default', $msg = 'success', $status = true)
     {
         $res = [
@@ -32,6 +41,31 @@ if (!function_exists('msgReturn')) {
     }
 }
 
+if (!function_exists('msgByUid')) {
+    function msgByUid ($data, $to_uid= null, $from_client_id = 'sys', $type = 'default', $msg = 'success', $status = true)
+    {
+        $res = [
+            'sign' => 123482365,
+            'type' => $type,
+            'data' => $data,
+            'status' => $status,
+            'to' => $to_uid? 'all' : $to_uid,
+            'from' => $from_client_id ,
+            'msg' => $msg
+        ];
+        $jsonstr = json_encode($res);
+        if (!$to_uid) {
+            \GatewayClient\Gateway::sendToAll($jsonstr);
+        } else {
+            try{
+                \GatewayClient\Gateway::sendToUid($to_uid, $jsonstr);
+            } catch (Exception $exception) {
+                \Illuminate\Support\Facades\Log::stack(['scoket'])->error('msgReturn  scoket');
+            }
+
+        }
+    }
+}
 if(!function_exists('returnSuccess')){
     function returnSuccess ($data,$message=''){
         return response([

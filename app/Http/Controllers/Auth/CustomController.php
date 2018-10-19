@@ -5,12 +5,18 @@ namespace App\Http\Controllers\Auth;
 use App\Model\AdminUser;
 use App\Model\CustomMessage;
 use App\Model\Wait;
+use App\Services\CustomerService;
 use GatewayClient\Gateway;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class CustomController extends Controller
 {
+    protected  $custom;
+    public function __construct(CustomerService $customerService)
+    {
+        $this->custom = $customerService;
+    }
     // # 获取消息记录
     // 目前等待人数
     //  目前服务人数
@@ -21,7 +27,9 @@ class CustomController extends Controller
      #客服会话列表
     public function show(Request $request)
     {
+//        $this->middleware(['adminouth']);
         $admin = $request->admin;
+//        dump($admin);
         # 关联查询  直接查询  group by 之后 反向关联查询
         $data = CustomMessage::query()
             ->where('ausers_id',$admin->id)
@@ -44,26 +52,38 @@ class CustomController extends Controller
             'request data is error'
         ]);
         $client_id = $request->get('client_id');
-        $uid = Gateway::getUidByClientId($client_id);
-        $msg = CustomMessage::query()
-             ->where('person_id',$uid)
-             ->orderBy('created_at','desc')
+        $uid = session('uid');
+
+        #已经咨询过的用户进行过滤处理
+
+
+
+        $this->custom->alreadyAskUser($uid);
+        $hwait = Wait::query()
+             ->where('tempuser_id',$uid )
              ->first();
-        if ($msg) {  #，之前咨询过的用户，直接，排队给相关工作人员。
-            $wait = app(Wait::class)->add($client_id,$msg->ausers_id);
-            return returnSuccess('','wait success');
-        } else {  # 进行绑定
-            #订单号生成。
+
+
+
+        if ($hwait) { # 之前已经排队， 重新绑定
+            Gateway::bindUid($client_id,$hwait->tempuser_id);
+            return returnSuccess($hwait,'old wait success');
+        }
+            # 进行绑定
+            #临时uid。
             $ordernum = date('Ymd').substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
-            #绑定订单号，
+            #绑定订单号
             Gateway::bindUid($client_id,$ordernum);
+            session([ 'uid' => $ordernum ]);
+            #
             # 插入等待表，
-            $wait = app(Wait::class)->add($client_id);
+            $wait = app(Wait::class)->add($ordernum);
 
             return returnSuccess($wait,'new wait success');
-        }
 
     }
+
+
     
     /**
      * 验证 客服认证 绑定Uid

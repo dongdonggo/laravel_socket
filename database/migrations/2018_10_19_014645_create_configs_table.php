@@ -15,6 +15,10 @@ class CreateConfigsTable extends Migration
     {
         Schema::create('configs', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('brand_id');
+            $table->integer('modelpn_id');
+            $table->integer('country_id');
+            $table->unique(['brand_id','modelpn_id','country_id']);
             $table->timestamps();
         });
     }
