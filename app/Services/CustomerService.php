@@ -56,7 +56,15 @@ class CustomerService
             msgByUid($value, $value['tempuser_id']);
         }
     }
-    
+
+    /**
+     * 过滤已经联系过的用户
+     */
+    public function alreadyUseFillter($uid)
+    {
+        $this->alreadyAskUser($uid);
+        $this->alreadyWait($uid);
+    }
     /**
      * 之前咨询过的用户，连接已关闭了，直接，排队给相关工作人员。
      */
@@ -68,7 +76,7 @@ class CustomerService
             ->first();
         if ($msg) {  #，之前咨询过的用户，连接已关闭了，直接，排队给相关工作人员。
             $wait = app(Wait::class)->add($uid,$msg->ausers_id);
-            return returnSuccess('','wait success');
+            return returnSuccess( $wait,'wait success');
         }
     }
 
@@ -77,7 +85,7 @@ class CustomerService
     {
         $msg = CustomMessage::query()
             ->where('person_id',$uid)
-            ->orderBy('created_at','desc')
+            ->orderBy('created_at','desc') 
             ->first();
         if ($msg) {  #，之前咨询过的用户，连接已关闭了，直接，排队给相关工作人员。
             $wait = app(Wait::class)->add($uid,$msg->ausers_id);
