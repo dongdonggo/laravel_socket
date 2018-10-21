@@ -23,6 +23,7 @@ class RouteController
      */
     protected  $data;
     protected  $uid; # 绑定的用户id
+    protected  $send_uid;  # 发送给的uid
     protected  $error = ['status'=>true,'msg'=>'no error']; #运行抛出的错误
     protected  $response; # 处理完成返回的数据
     protected  $route; #  访问的路由
@@ -73,10 +74,10 @@ class RouteController
         # 返回数据格式 ，大小 验证
         # 返回值
         if ( !$this->isError() ) {
-            $this->send_client_id = $this->accept_client_id;
-           msgReturn('',  $this->send_client_id,  'sys', 'error', $this->error['msg'], false);
+            $this->send_uid = $this->uid;
+           msgReturn('',  $this->send_uid,  'sys', 'error', $this->error['msg'], false);
         } else {
-            msgReturn($this->response, $this->send_client_id, $this->send_client_id, 'message');
+            msgReturn($this->response, $this->send_uid, $this->uid, 'message');
         }
     }
 
@@ -117,9 +118,9 @@ class RouteController
     /**
      *
      */
-    public function isOnline($client_id)
+    public function isOnline($uid)
     {
-       return Gateway::isOnline($client_id);
+       return Gateway::isUidOnline($uid);
     }
     /**
      * 数据验证
@@ -145,8 +146,8 @@ class RouteController
         } else {
             $this->data = $arr;
 
-            $this->send_client_id = $this->data['sendto'];
-            if (!$this->isOnline($this->send_client_id)) {
+            $this->send_uid = $this->data['sendto'];
+            if (!$this->isOnline($this->send_uid)) {
                 $this->error = [
                     'status' => false,
                     'msg' => ' send_client_id is not Online '

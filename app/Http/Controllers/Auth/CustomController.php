@@ -27,9 +27,7 @@ class CustomController extends Controller
      #客服会话列表
     public function show(Request $request)
     {
-//        $this->middleware(['adminouth']);
         $admin = $request->admin;
-//        dump($admin);
         # 关联查询  直接查询  group by 之后 反向关联查询
         $data = CustomMessage::query()
             ->where('ausers_id',$admin->id)
@@ -37,8 +35,6 @@ class CustomController extends Controller
             ->get()->toArray();
         return view('admin.dev.custom.show', compact('data'));
     }
-
-
 
     /**
      *  客服绑定
@@ -53,34 +49,11 @@ class CustomController extends Controller
         ]);
         $client_id = $request->get('client_id');
         $uid = session('uid');
-
-        #已经咨询过的用户进行过滤处理
-
-
-
-        $this->custom->alreadyAskUser($uid);
-        $hwait = Wait::query()
-             ->where('tempuser_id',$uid )
-             ->first();
-
-
-
-        if ($hwait) { # 之前已经排队， 重新绑定
-            Gateway::bindUid($client_id,$hwait->tempuser_id);
-            return returnSuccess($hwait,'old wait success');
+        if (!$uid) { # 新客户
+            return $this->custom->newBindWait($client_id);
         }
-            # 进行绑定
-            #临时uid。
-            $ordernum = date('Ymd').substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
-            #绑定订单号
-            Gateway::bindUid($client_id,$ordernum);
-            session([ 'uid' => $ordernum ]);
-            #
-            # 插入等待表，
-            $wait = app(Wait::class)->add($ordernum);
-
-            return returnSuccess($wait,'new wait success');
-
+        #已经咨询过的用户进行过滤处理
+        return $this->custom->alreadyUseFillter($uid, $client_id);
     }
 
 

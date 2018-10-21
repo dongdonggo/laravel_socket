@@ -42,6 +42,15 @@ if (!function_exists('msgReturn')) {
 }
 
 if (!function_exists('msgByUid')) {
+    /**
+     * @param $data
+     * @param null $to_uid
+     * @param string $from_client_id
+     * @param string $type  msginit=> 消息连接初始化
+     * @param string $msg
+     * @param bool $status
+     * @throws Exception
+     */
     function msgByUid ($data, $to_uid= null, $from_client_id = 'sys', $type = 'default', $msg = 'success', $status = true)
     {
         $res = [

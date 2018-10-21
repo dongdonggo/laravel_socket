@@ -172,7 +172,14 @@ desired effect
 
 <script src="/js/socket.js"></script>
 <script>
-    startWebSocket(routes.personbind);
+    var obj = {
+        'bindRoutep': routes.personbind,
+        'msginit': personMsgInit
+    }
+    startWebSocket(obj);
+    function personMsgInit() {
+        
+    }
 </script>
 
 

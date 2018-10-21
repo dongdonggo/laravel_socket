@@ -17,7 +17,7 @@ class CreateCustomServesTable extends Migration
         Schema::create('custom_serves', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('ausers_id')->unsigned()->comment('客服ID');
-            $table->integer('person_id')->comment('用户ID or orderid');
+            $table->string('person_id')->comment('用户ID or orderid');
             $table->timestamps();
         });
     }

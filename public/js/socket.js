@@ -5,8 +5,12 @@ let routes ={
 }
 var bindRoute = '';
 
-function startWebSocket(bindRoutep) {
-    bindRoute = bindRoutep;
+/**
+ *
+ * @param obj object bindRoutep 绑定的路由
+ */
+function startWebSocket(obj) {
+    bindRoute =obj.bindRoutep;
     var wsUri ="ws://127.0.0.1:44444";
     websocket = new WebSocket(wsUri);
     websocket.onopen = function(evt) {
@@ -16,7 +20,7 @@ function startWebSocket(bindRoutep) {
         onClose(evt)
     };
     websocket.onmessage = function(evt) {
-        onMessage(evt)
+        onMessage(evt,obj.msginit)
     };
     websocket.onerror = function(evt) {
         onError(evt)
@@ -67,6 +71,7 @@ function sendMsg(message,sendid)
     doSend(jsondata, routes.sendmsg,sendid);
 }
 
+
 function onOpen(evt) {
     console.log('onOpen socket',evt);
     // binduid(evt);
@@ -76,7 +81,7 @@ function onClose(evt) {
     console.log('onClose socket',evt)
 }
 
-function onMessage(evt) {
+function onMessage(evt,msginit) {
     var json = JSON.parse(evt.data);
     console.log(json);
     if (!json.status) {
@@ -88,6 +93,10 @@ function onMessage(evt) {
                 break;
             case 'ping':
                 console.log(json);
+                break;
+            case 'msginit':
+                msginit(json);
+                console.log('会话开始');
                 break;
             case 'default':
                 console.log(json);

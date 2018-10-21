@@ -8,7 +8,7 @@ class AdminRole extends Model
 {
     protected $guarded = []; //不被批量赋值 空为全部可以赋值
     # role 客服角色 id
-    static protected $custom = 5;
+    protected $custom = 3;
     public function getCustomId()
     {
         return $this->custom;
