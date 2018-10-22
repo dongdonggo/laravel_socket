@@ -21,6 +21,7 @@ namespace handlers;
 //declare(ticks=1);
 
 use App\handlers\WorkerControllers\RouteController;
+use App\Model\CustomServe;
 use App\Models\User;
 use \GatewayWorker\Lib\Gateway;
 
@@ -51,7 +52,7 @@ class GatewayHandler
 
         // 向当前client_id发送数据
 //        Gateway::sendToClient($client_id, 'ss');
-      msgReturn(['client_id'=>$client_id], $client_id, 'sys', 'connect');
+      msgReturn( ['client_id'=>$client_id],  $client_id, 'sys', 'connect');
 //        Gateway::sendToClient($client_id,$res);
         // 向所有人发送
 //        Gateway::sendToAll($res);
@@ -82,6 +83,11 @@ class GatewayHandler
    public static function onClose($client_id)
    {
 
+       $uid  = Gateway::getUidByClientId($client_id);
+       $first = CustomServe::query()->where('person_id', $uid)->first();
+       if ($first) {
+           $first->delete();
+       }
        msgReturn(['client_id'=>$client_id],null, 'sys', 'close', ' 链接已断开');
    }
 }

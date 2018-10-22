@@ -51,7 +51,7 @@ class ExampleTest extends TestCase
 //        $admin->load('roles');
         $data = app(CustomerService::class)->isFreeCustomer();
         dump($data);
-//        echo  Gateway::isUidOnline(32);
+//        echo  Gateway::isUidOnline(3);
      /*   $data = Gateway::getAllUidList();
         $data =  Gateway::getAllClientIdList();
         dump($data);*/

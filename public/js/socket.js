@@ -20,7 +20,7 @@ function startWebSocket(obj) {
         onClose(evt)
     };
     websocket.onmessage = function(evt) {
-        onMessage(evt,obj.msginit)
+        onMessage(evt,obj)
     };
     websocket.onerror = function(evt) {
         onError(evt)
@@ -72,6 +72,45 @@ function sendMsg(message,sendid)
 }
 
 
+/**
+ data.msg
+ */
+function rightMssage(data)
+{
+    return  `
+
+            <div class="direct-chat-msg right">
+                <div class="direct-chat-info clearfix">
+                    <span class="direct-chat-name pull-right">name</span>
+                    <span class="direct-chat-timestamp pull-left">23 Jan 2:05 pm</span>
+                </div>
+
+                <img class="direct-chat-img" src="/dist/img/user3-128x128.jpg" alt="Message User Image"><!-- /.direct-chat-img -->
+                <div class="direct-chat-text">
+                ${data.msg}
+                </div>
+
+            </div>
+            `
+}
+
+// data.msg
+function leftMessage(data)
+{
+    return `
+        <div class="direct-chat-msg">
+            <div class="direct-chat-info clearfix">
+            <span class="direct-chat-name pull-left">name</span>
+            <span class="direct-chat-timestamp pull-right">23 Jan 2:00 pm</span>
+            </div>
+            <img class="direct-chat-img" src="/dist/img/user1-128x128.jpg" alt="Message User Image"><!-- /.direct-chat-img -->
+            <div class="direct-chat-text">
+            ${data.msg}
+            </div>
+         </div>
+            `;
+}
+
 function onOpen(evt) {
     console.log('onOpen socket',evt);
     // binduid(evt);
@@ -81,7 +120,7 @@ function onClose(evt) {
     console.log('onClose socket',evt)
 }
 
-function onMessage(evt,msginit) {
+function onMessage(evt,eventjson) {
     var json = JSON.parse(evt.data);
     console.log(json);
     if (!json.status) {
@@ -95,8 +134,11 @@ function onMessage(evt,msginit) {
                 console.log(json);
                 break;
             case 'msginit':
-                msginit(json);
+                eventjson.msginit(json);
                 console.log('会话开始');
+                break;
+            case 'message': //聊天内容
+                eventjson.onmsg(json);
                 break;
             case 'default':
                 console.log(json);

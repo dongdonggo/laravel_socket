@@ -9,30 +9,35 @@
 if (!function_exists('msgReturn')) {
     /**
      * @param $data
-     * @param null $to_client_id 发给的client_id
+     * @param null $to_uid 发给的client_id  或 uid
      * @param string $from_client_id 来自的client_id, 默认为系统
      * @param string $type  error,close
      * @param string $msg
      * @param bool $status   成功还是失败的 返回数据
      * @throws Exception
      */
-    function msgReturn ($data, $to_client_id = null, $from_client_id = 'sys', $type = 'default', $msg = 'success', $status = true)
+    function msgReturn ($data, $to_uid = null, $from_uid = 'sys', $type = 'default', $msg = 'success', $status = true)
     {
         $res = [
             'sign' => 123482365,
             'type' => $type,
             'data' => $data,
             'status' => $status,
-            'to' => $to_client_id? 'all' : $to_client_id,
-            'from' => $from_client_id ,
+            'to' => $to_uid,
+            'from' => $from_uid ,
             'msg' => $msg
         ];
         $jsonstr = json_encode($res);
-        if (!$to_client_id) {
+        \Illuminate\Support\Facades\Log::stack(['socket'])->info($jsonstr);
+        if (!$to_uid) {
             \GatewayClient\Gateway::sendToAll($jsonstr);
         } else {
             try{
-                \GatewayClient\Gateway::sendToClient($to_client_id, $jsonstr);
+                if($type == 'connect') {
+                    \GatewayClient\Gateway::sendToClient($to_uid, $jsonstr);
+                }else {
+                    \GatewayClient\Gateway::sendToUid($to_uid, $jsonstr);
+                }
             } catch (Exception $exception) {
                 \Illuminate\Support\Facades\Log::stack(['scoket'])->error('msgReturn  scoket');
             }

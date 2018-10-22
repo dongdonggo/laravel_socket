@@ -86,36 +86,12 @@ desired effect
                 <!-- /.box-header -->
                 <div class="box-body box-content">
                     <!-- Conversations are loaded here -->
-                    <div class="direct-chat-messages">
-                        <!-- Message. Default to the left -->
-                        <div class="direct-chat-msg">
-                            <div class="direct-chat-info clearfix">
-                                <span class="direct-chat-name pull-left">Alexander Pierce</span>
-                                <span class="direct-chat-timestamp pull-right">23 Jan 2:00 pm</span>
-                            </div>
-                            <!-- /.direct-chat-info -->
-                            <img class="direct-chat-img" src="/dist/img/user1-128x128.jpg" alt="Message User Image"><!-- /.direct-chat-img -->
-                            <div class="direct-chat-text">
-                                Is this template really for free? That's unbelievable!
-                            </div>
-                            <!-- /.direct-chat-text -->
-                        </div>
-                        <!-- /.direct-chat-msg -->
+                    <div class="direct-chat-messages" id ='direct-chat-msg'>
 
-                        <!-- Message to the right -->
-                        <div class="direct-chat-msg right">
-                            <div class="direct-chat-info clearfix">
-                                <span class="direct-chat-name pull-right">Sarah Bullock</span>
-                                <span class="direct-chat-timestamp pull-left">23 Jan 2:05 pm</span>
-                            </div>
-                            <!-- /.direct-chat-info -->
-                            <img class="direct-chat-img" src="/dist/img/user3-128x128.jpg" alt="Message User Image"><!-- /.direct-chat-img -->
-                            <div class="direct-chat-text">
-                                You better believe it!
-                            </div>
-                            <!-- /.direct-chat-text -->
-                        </div>
-                        <!-- /.direct-chat-msg -->
+
+
+
+
                     </div>
                     <!--/.direct-chat-messages-->
 
@@ -148,7 +124,7 @@ desired effect
                         <div class="input-group">
                             <input type="text" name="message"  placeholder="Type Message ..." class="form-control">
                             <span class="input-group-btn">
-                                                    <button type="button" class="btn btn-success btn-flat" data-clientid="01234564ss" onclick="sendMsg($(this).parent().parent().find('input').val(), $(this).attr('data-clientid'))">Send</button>
+                                                    <button id="btn-send" type="button" class="btn btn-success btn-flat" data-clientid="" onclick="sendToMsg(this)">Send</button>
                                                 </span>
                         </div>
                     </form>
@@ -174,11 +150,33 @@ desired effect
 <script>
     var obj = {
         'bindRoutep': routes.personbind,
-        'msginit': personMsgInit
+        'msginit': personMsgInit,
+        'onmsg': onMsgchat,
     }
     startWebSocket(obj);
-    function personMsgInit() {
-        
+    function personMsgInit(json) {
+        var uid = json.data.adminid;
+        console.log('会话开始', json);
+        $('#btn-send').attr('data-clientid',uid);
+        // console.log( $('#btn-send'));
+        var value = $('#btn-send').attr('data-clientid');
+        // console.log('data-client',value);
+
+    }
+
+    function sendToMsg(ele)
+    {
+        var value = $(ele).parent().parent().find('input').val();
+        var elementid = $(ele).attr('data-clientid');
+        sendMsg(value,elementid);
+        console.log(elementid,'data-clientid');
+        var temp = rightMssage({'msg':value});
+        $('#direct-chat-msg').append(temp);
+    }
+    function onMsgchat(json) {
+        console.log('onmsgchat',json);
+        var temp = leftMessage({'msg':json.data});
+        $('#direct-chat-msg').append(temp);
     }
 </script>
 
