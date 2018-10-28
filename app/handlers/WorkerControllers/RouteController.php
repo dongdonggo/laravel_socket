@@ -145,7 +145,7 @@ class RouteController
             Log::stack(['socket'])->error( 'dataValidate '.json_encode($this->error));
         } else {
             $this->data = $arr;
-
+            $this->data['from'] = $this->uid;
             $this->send_uid = $this->data['sendto'];
             if (!$this->isOnline($this->send_uid)) {
                 $this->error = [
@@ -220,7 +220,7 @@ class RouteController
 
         $class = new \ReflectionClass(__NAMESPACE__.'\\'.$arr[0]);
         if ($class->hasMethod($arr[1])) {
-            $obj = $class->newInstance ($this->data['data'], $this->accept_client_id);
+            $obj = $class->newInstance ($this->data);
             $classMethod = new \ReflectionMethod(__NAMESPACE__.'\\'.$arr[0], $arr[1]);
             $res = $classMethod ->invoke($obj,$arr[1],$this->data['data']);
             $this->resDataCase($res);

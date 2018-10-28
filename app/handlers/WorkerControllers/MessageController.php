@@ -9,6 +9,7 @@
 namespace App\handlers\WorkerControllers;
 
 
+use App\Model\CustomMessage;
 use Illuminate\Support\Facades\Log;
 
 class MessageController
@@ -25,10 +26,15 @@ class MessageController
      */
     public  function sendmsg()
     {
-        var_dump($this->data);
+        if (strlen($this->data['sendto']) < strlen($this->data['from'])) {
+            app(CustomMessage::class)->add($this->data['sendto'], $this->data['from'], $this->data['data']['msg'], $this->data['sendto']);
+        } else {
+            app(CustomMessage::class)->add($this->data['from'], $this->data['sendto'], $this->data['data']['msg'], $this->data['sendto']);
+        }
+
        return [
            'status' => true,
-           'data' => $this->data['msg']
+           'data' => $this->data['data']['msg']
        ];
     }
 

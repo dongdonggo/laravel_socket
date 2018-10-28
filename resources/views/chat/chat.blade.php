@@ -86,7 +86,7 @@ desired effect
                 <!-- /.box-header -->
                 <div class="box-body box-content">
                     <!-- Conversations are loaded here -->
-                    <div class="direct-chat-messages" id ='direct-chat-msg'>
+                    <div class="direct-chat-messages" id ='direct-chat-msg' style="height:295px;">
 
 
 
@@ -166,23 +166,25 @@ desired effect
 
     function sendToMsg(ele)
     {
-        var value = $(ele).parent().parent().find('input').val();
+        var inpuele = $(ele).parent().parent().find('input');
+        var value = inpuele.val();
         var elementid = $(ele).attr('data-clientid');
         sendMsg(value,elementid);
         console.log(elementid,'data-clientid');
         var temp = rightMssage({'msg':value});
         $('#direct-chat-msg').append(temp);
+        inpuele.val('');
+        scrollLow();
     }
     function onMsgchat(json) {
         console.log('onmsgchat',json);
         var temp = leftMessage({'msg':json.data});
         $('#direct-chat-msg').append(temp);
+        scrollLow();
     }
+
+
 </script>
 
-
-<!-- Optionally, you can add Slimscroll and FastClick plugins.
-     Both of these plugins are recommended to enhance the
-     user experience. -->
 </body>
 </html>

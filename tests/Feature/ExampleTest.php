@@ -49,11 +49,15 @@ class ExampleTest extends TestCase
     {
 //        $admin = AdminUser::query()->first();
 //        $admin->load('roles');
-        $data = app(CustomerService::class)->isFreeCustomer();
-        dump($data);
+//        $data = app(CustomerService::class)->isFreeCustomer();
+//        dump($data);
 //        echo  Gateway::isUidOnline(3);
-     /*   $data = Gateway::getAllUidList();
-        $data =  Gateway::getAllClientIdList();
-        dump($data);*/
+        # 2018102350505255
+        #7f0000010b5500000003
+//        $data = Gateway::getAllUidList();
+//        $data =  Gateway::getAllClientIdList();
+        $data = Gateway::getUidByClientId('7f0000010b5500000019');
+        #2018102356564848
+        dump($data);
     }
 }

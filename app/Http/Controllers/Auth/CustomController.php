@@ -56,8 +56,6 @@ class CustomController extends Controller
         return $this->custom->alreadyUseFillter($uid, $client_id);
     }
 
-
-    
     /**
      * 验证 客服认证 绑定Uid
      */

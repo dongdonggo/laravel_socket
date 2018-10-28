@@ -8,11 +8,12 @@ class CustomMessage extends Model
 {
     protected $guarded =[];
     #添加
-    public function add($adminid,$personid,$message)
+    public function add($adminid,$personid,$message,$to)
     {
        return static::create([
                 'ausers_id' => $adminid,
                 'person_id' => $personid ,
+                'to' => $to,
                 'message' => $message,
             ]);
     }

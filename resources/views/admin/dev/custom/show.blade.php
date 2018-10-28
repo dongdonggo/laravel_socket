@@ -16,8 +16,7 @@
             <a href="#" id="socket_pause" class="btn btn-warning margin-bottom" data-start="end">暂 停 </a>
             <a href="#" id="socket_end" class="btn btn-default margin-bottom" data-start="end">下 线</a>
 
-            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Mailbox</li>
+
         </ol>
     </section>
 
@@ -36,12 +35,10 @@
                 <div class="box box-widget widget-user-2">
                     <!-- Add the bg color to the header using any of the bg-* classes -->
                     <div class="widget-user-header bg-aqua-active">
-                        <div class="widget-user-image">
-                            <img class="img-circle" src="/dist/img/user7-128x128.jpg" alt="User Avatar">
-                        </div>
+
                         <!-- /.widget-user-image -->
-                        <h3 class="widget-user-username">Nadia Carmichael</h3>
-                        <h5 class="widget-user-desc">Lead Developer
+                        <h3 class="widget-user-username">客服--小小</h3>
+                        <h5 class="widget-user-desc">商城客服
                             <span class="pull-right badge " id = 'online_bg'>Online</span>
                         </h5>
 
@@ -106,50 +103,80 @@
             <!-- /.col -->
             <div class="col-md-9">
                 <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Chat</h3>
-
-                       {{-- <div class="box-tools pull-right">
-                            <div class="has-feedback">
-                                <input type="text" class="form-control input-sm" placeholder="Search Mail">
-                                <span class="glyphicon glyphicon-search form-control-feedback"></span>
-                            </div>
-                        </div>--}}
-                        <!-- /.box-tools -->
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body no-padding">
-                        <!-- Direct Chat -->
+                    <br><br>
                         <div class="row" id="chat-row">
+                            <div class="row d_pos">
+                                <div class="col-md-12 ">
+                                    <!-- DIRECT CHAT SUCCESS -->
+                                    <div class="box box-success direct-chat direct-chat-success">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">online Chat</h3>
 
+                                            <div class="box-tools pull-right">
+                                                <span data-toggle="tooltip" title="3 New Messages" class="badge bg-green">3</span>
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Contacts" data-widget="chat-pane-toggle">
+                                                    <i class="fa fa-comments"></i></button>
+                                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                                            </div>
+                                        </div>
+                                        <!-- /.box-header -->
+                                        <div class="box-body box-content" style="">
+                                            <!-- Conversations are loaded here -->
+                                            <div class="direct-chat-messages" id="direct-chat-msg" style="height:295px;">
+
+
+
+
+
+                                            </div>
+                                            <!--/.direct-chat-messages-->
+
+                                            <!-- Contacts are loaded here -->
+                                            <div class="direct-chat-contacts">
+                                                <ul class="contacts-list">
+                                                    <li>
+                                                        <a href="#">
+                                                            <img class="contacts-list-img" src="/dist/img/user1-128x128.jpg" alt="User Image">
+
+                                                            <div class="contacts-list-info">
+                            <span class="contacts-list-name">
+                              Count Dracula
+                              <small class="contacts-list-date pull-right">2/28/2015</small>
+                            </span>
+                                                                <span class="contacts-list-msg">How have you been? I was...</span>
+                                                            </div>
+                                                            <!-- /.contacts-list-info -->
+                                                        </a>
+                                                    </li>
+                                                    <!-- End Contact Item -->
+                                                </ul>
+                                                <!-- /.contatcts-list -->
+                                            </div>
+                                            <!-- /.direct-chat-pane -->
+                                        </div>
+                                        <!-- /.box-body -->
+                                        <div class="box-footer" style="">
+                                            <form action="#" method="post">
+                                                <div class="input-group">
+                                                    <input type="text" name="message" placeholder="Type Message ..." class="form-control">
+                                                    <span class="input-group-btn">
+                                                    <button id="btn-send" type="button" class="btn btn-success btn-flat" data-clientid="3" onclick="sendToMsg(this)">Send</button>
+                                                </span>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <!-- /.box-footer-->
+                                    </div>
+                                    <!--/.direct-chat -->
+                                </div>
+                            </div>
 
                         </div>
-                        <!-- /.row -->
-                        <!-- /.mail-box-messages -->
-                    </div>
-                    <!-- /.box-body -->
+
                     <div class="box-footer no-padding">
-                        {{--<div class="mailbox-controls">--}}
-                            {{--<!-- Check all button -->--}}
-                            {{--<button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i>--}}
-                            {{--</button>--}}
-                            {{--<div class="btn-group">--}}
-                                {{--<button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>--}}
-                                {{--<button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>--}}
-                                {{--<button type="button" class="btn btn-default btn-sm"><i class="fa fa-share"></i></button>--}}
-                            {{--</div>--}}
-                            {{--<!-- /.btn-group -->--}}
-                            {{--<button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>--}}
-                            {{--<div class="pull-right">--}}
-                                {{--1-50/200--}}
-                                {{--<div class="btn-group">--}}
-                                    {{--<button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>--}}
-                                    {{--<button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>--}}
-                                {{--</div>--}}
-                                {{--<!-- /.btn-group -->--}}
-                            {{--</div>--}}
-                            {{--<!-- /.pull-right -->--}}
-                        {{--</div>--}}
+
                     </div>
                 </div>
                 <!-- /. box -->
@@ -188,7 +215,11 @@
             'uid':uid,
             // 'from':json.from,
         };
-           console.log('adminMsgInit', json);
+        var atrrid = $('#'+uid).attr('id');
+        if (atrrid) {
+            console.log('adminMsgInit alerady has');
+            return ;
+        }
         var html = tempChat(datas);
         $("#chat-row").append(html);
         console.log('adminMsgInit');
@@ -201,24 +232,31 @@
         console.log('onmsgchat',json);
         var temp = leftMessage({'msg':json.data});
         $('#'+uid+' #direct-chat-msg').append(temp);
+        scrollLow();
 
     }
     function sendToMsg(ele)
     {
-        var value = $(ele).parent().parent().find('input').val();
+
+        var inpuele = $(ele).parent().parent().find('input');
+        var value = inpuele.val();
         var elementid = $(ele).attr('data-clientid');
         sendMsg(value,elementid);
         console.log(elementid,'data-clientid');
         var temp = rightMssage({'msg':value});
         $(ele).parents('.direct-chat').find('#direct-chat-msg').append(temp);
+        inpuele.val('');
+        scrollLow();
     }
     //聊天的模板
     function tempChat(data) {
         var tem  = `
-        <div class="col-md-5" id='${data.uid}'>
-            <div class="box box-success direct-chat direct-chat-success" >
+       <div class="row d_pos ">
+        <div class="col-md-5"  id='${data.uid}'>
+            <!-- DIRECT CHAT SUCCESS -->
+            <div class="box box-success direct-chat direct-chat-success">
             <div class="box-header with-border">
-            <h3 class="box-title" >Direct Chat</h3>
+            <h3 class="box-title">online Chat</h3>
 
             <div class="box-tools pull-right">
             <span data-toggle="tooltip" title="3 New Messages" class="badge bg-green">3</span>
@@ -229,21 +267,27 @@
             <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
             </div>
             </div>
-
-            <div class="box-body">
-
-            <div class="direct-chat-messages">
-
-            <div class="direct-chat-msg" id='direct-chat-msg'>
+            <!-- /.box-header -->
+            <div class="box-body box-content" style="">
+            <!-- Conversations are loaded here -->
+            <div class="direct-chat-messages" id="direct-chat-msg" style="height:295px;">
 
 
+
+
+
+
+            <div class="direct-chat-msg" style="position: relative;">
+            <div class="direct-chat-info clearfix">
+            <span class="direct-chat-name pull-left">name</span>
+            <span class="direct-chat-timestamp pull-right" style="position: absolute;left:0px;right:0px;text-align: center;">23 Jan 2:00 pm</span>
             </div>
-
-
-
-
+            <img class="direct-chat-img" src="/dist/img/user1-128x128.jpg" alt="Message User Image"><!-- /.direct-chat-img -->
+            <div class="direct-chat-text" style="left: 0px; margin-right: 50px;">
+            开始会话
             </div>
-
+            </div>
+            </div>
             <!--/.direct-chat-messages-->
 
             <!-- Contacts are loaded here -->
@@ -270,12 +314,12 @@
             <!-- /.direct-chat-pane -->
             </div>
             <!-- /.box-body -->
-            <div class="box-footer">
+            <div class="box-footer" style="">
             <form action="#" method="post">
             <div class="input-group">
-            <input type="text" name="message"  placeholder="Type Message ..." class="form-control">
+            <input type="text" name="message" placeholder="Type Message ..." class="form-control">
             <span class="input-group-btn">
-            <button type="button" class="btn btn-success btn-flat" data-clientid="${data.uid}" onclick="sendToMsg(this)">Send</button>
+            <button id="btn-send" type="button" class="btn btn-success btn-flat" data-clientid="${data.uid}" onclick="sendToMsg(this)">Send</button>
             </span>
             </div>
             </form>
@@ -283,6 +327,7 @@
             <!-- /.box-footer-->
             </div>
             <!--/.direct-chat -->
+            </div>
             </div>
             `;
         return  tem;
