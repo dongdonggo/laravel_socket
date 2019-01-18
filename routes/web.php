@@ -12,7 +12,10 @@
 */
 
 Route::get('/ccc/bb', function () {
-    return $_SERVER;
+//    return $_SERVER;
+    $a = 'a';
+        echo gettype($a);
+
 //    return view('welcome');
 });
 
