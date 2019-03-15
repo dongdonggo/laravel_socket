@@ -58,6 +58,7 @@ class CustomerService
         }
         if (empty($onlineUids)) {
             Log::stack(['socket'])->info('isFreeCustomer   onlineUids is empty');
+            Log::stack(['socket'])->info(json_encode($Customers));
             return false;
         }
         $sort = [];
@@ -76,7 +77,6 @@ class CustomerService
 
         if (empty($sort)) {
             Log::stack(['socket'])->info('isFreeCustomer  CustomServe query is empty');
-//                return false;
         }
         foreach ($onlineUids as $vaid) {
             $sort[$vaid] = isset($sort[$vaid]) ? $sort[$vaid] : 0;
@@ -120,6 +120,8 @@ class CustomerService
     }
 
     /**
+     *
+     *
      * 过滤已经联系过的用户
      */
     public function alreadyUseFillter($uid, $client_id)

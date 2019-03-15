@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use GatewayClient\Gateway;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -168,5 +169,11 @@ class RouteauthTest extends TestCase
         dump(json_decode($respon->getContent()));
         dump($respon->getStatusCode());
         $respon->assertStatus(200);
+    }
+
+    public function test()
+    {
+        $list = Gateway::getAllUidList();
+        dump($list);
     }
 }

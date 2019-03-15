@@ -37,7 +37,7 @@ class CustomController extends Controller
     }
 
     /**
-     *  客服绑定
+     *  客服绑定---用户连接时
      */
     public function socketBindPerson(Request $request)
     {

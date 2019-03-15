@@ -65,6 +65,9 @@ desired effect
 |---------------------------------------------------------|
 -->
 <body class="hold-transition skin-blue sidebar-mini">
+<div id="compent">
+
+</div>
 <div class="wrapper">
 
     <div class="row d_pos"  >
@@ -129,6 +132,15 @@ desired effect
                         </div>
                     </form>
                 </div>
+                <div class="box-footer">
+                    <form action="#" method="post">
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <img class="" style="display: inline;vertical-align: middle;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAEIElEQVQ4ja2UXWyTZRTHf33e923XD8a6bkPGgsAcQxxxIYIdRIQwhGAYasAERCHBG43xwiujmOiFkSv5UCABQgzKjUH52IYYNBB10I5MB9MhNGTAxoBRutJ27dr343hRFvGDxAtPcpLn+T8n/3PynPM/8D+b60EP9WU0LHuY55+cTFNNhV4DMBC3BqLXOHP8KocuJvn1PxGWl1D17hw2b2ipeHlc4yJdmzwfl78aABkZxL7WQbr7pPXZ0fjnH57l7cQoQw+sdmopM6IbVcw81iwSbxMZ6RZJRUSGfyh6KlLE4m1iHmuW6EYVm1rKjPsLGzu4gh6qTryiIo0vLZuizXod8mlwsiDyt7QuUD7wjMPu2Un3geNXlux3wsN5hgDR7oVpHy1w7WpZM22B3rAGcoNgDoGTBjsNZgqsNDiZImbegfwdVKieKm+szHszOfHbKxwZI1R1ZTTuetW73fv4XBfKgPwQGDkopEDLQj4Fdgb07J9YLgH2KMqrmOnub/iq0zqaGOWWArQVta61vpqAwmVBtg/0OL3Rc6xft5tTrR2g3wL9FqdaO1i/bje90XOgx4uxmoWvJqBW1LrWApoO6E21elgrdUPhJmAADocP/ka136H9yHkWPpEGoP1IH9V+h8MHu5g54zEYVYCJVuqmqVYP02XqCjCqQ1oVhhsKaSjEkUSC4KQA729poH52BZmkQybpUD+7gg+2NBCcFEASCSjEi81zu6kOaVWA4QLKO15zR8IrK+uURwO3DQEBtw6OA44GebvYOo8GygZdQdaCjAtMDSdvEzl6OzZ/VyGsA3I9YccxM3V4YdN7I4RCFvWPwISHoKwcSryAA7kcJBNw4wb0/g6mbbDpHT+khesJ+zYgOmBG+pzzz+XNJhWwMH3jUU/vJ+HL0R+/in15CMfKFgfW8GP4JuCbOQUqLOzODeDPYvcbRPqcHsAEMOqCtKR2eGzpCch3W5HVC+bKzh0fy49nf5EbKVtMEcmLyEAiLydPR2X71s3ywrxZEt2DSHdAUp947LogLYChA1ZsmK59rWb7m9OMFYtXBrh6oZO+PZ0MfglfK3BU8QuVDX4HJAmrm2HuMwGkB/a1m+2xYboAa0x67vIS5n3/hv5F4yrvJGrgmwMmmQsWpSU2hl6Un2kqUnlFsFGn+UUD+qD7UO764k+tdYlRTgOFMek5OYu7J3qd2FNeJzyxUhtft8jAN0XnrqaR03TM8QbeWoOG5W5mz9PhosPPraP9q/Zabw1mOANk/7FtgMqQl6Xblqu29D6PJaf9IpdLRfrv+eVSkZ/8kt7rsbYtV20hL0uByn/bNvffxwE19SHmPDvdtTA8XT1aU+WqABgYknjkknOh/ZKcuniHs8AAkAbkQYRjpoAyIAj4Afc9vACMAMNAsjidf7U/AC8J3bioSnIJAAAAAElFTkSuQmCC" unicode16="1f604">
+                            </span>
+                        </div>
+                    </form>
+                </div>
                 <!-- /.box-footer-->
             </div>
             <!--/.direct-chat -->
@@ -147,6 +159,10 @@ desired effect
 <script src="/dist/js/adminlte.min.js"></script>
 
 <script src="/js/socket.js"></script>
+
+<script src="/js/emoji-lib/emoji-list-with-image.js"></script>
+<script src="/js/emoji-lib/punycode.js"></script>
+<script src="/js/emoji-lib/emoji.js "></script>
 <script>
     var obj = {
         'bindRoutep': routes.personbind,
@@ -183,7 +199,25 @@ desired effect
         scrollLow();
     }
 
+    //示例生成emoji图片输入
+    function renderEmoji()
+    {
+        var emos = getEmojiList()[0];//此处按需是否生成所有emoji
+        var html = '<div >常用表情</div><ul>';
+        for (var j = 0; j < emos.length; j++) {
+            var emo = emos[j];
+            var data = 'data:image/png;base64,' + emo[2];
+            if (j % 20 == 0) {
+                html += '<li class="">';
+            } else {
+                html += '<li>';
+            }
+            html += '<img style="display: inline;vertical-align: middle;" src="' + data + '"  unicode16="' + emo[1] + '" /></li>';
 
+        }
+        $('#compent').append(html);
+    }
+    renderEmoji();
 </script>
 
 </body>
