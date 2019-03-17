@@ -13,10 +13,12 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\Workman::class,
+        Commands\Gateway::class,
     ];
 
     /**
+     * 任务调度执行
      * Define the application's command schedule.
      *
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule

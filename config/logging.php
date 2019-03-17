@@ -33,9 +33,15 @@ return [
     */
 
     'channels' => [
+        'socket'=> [
+            'driver' => 'single',
+            'path' => storage_path('logs/socket.log'),
+            'level' => 'debug',
+        ],
         'stack' => [
             'driver' => 'stack',
             'channels' => ['single'],
+            'path' => storage_path('logs/stocket.log'),
         ],
 
         'single' => [
